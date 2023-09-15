@@ -1,12 +1,60 @@
 using LitJson;
 using System;
-using TinyJson;
 using UnityEngine;
 
 namespace Game
 {
     public class ConsoleUtils
     {
+        
+
+        private static string PrintDic(dynamic dic)
+        {
+            string res = "{ ";
+            foreach (dynamic data in dic)
+            {
+                string key = data.Key.ToString();
+                string valueName = data.Value.GetType().Name;
+                if (valueName.IndexOf("Dictionary") != -1)
+                {
+                    res += key + ":" + PrintDic(data.Value) + ",";
+                }
+                else if (valueName.IndexOf("List") != -1)
+                {
+                    res += key + ":" + PrintList(data.Value) + ",";
+                }
+                else
+                {
+                    res += key + ":" + data.Value.ToString() + ",";
+                }
+            }
+            res = res.Substring(0, res.Length - 1) + " }";
+            return res;
+        }
+
+        private static string PrintList(dynamic list)
+        {
+            string res = "[ ";
+            for(int i = 0,len = list.Count; i < len; i++)
+            {
+                string valueName = list[i].GetType().Name;
+                if (valueName.IndexOf("Dictionary") != -1)
+                {
+                    res += PrintDic(list[i]) + ",";
+                }
+                else if (valueName.IndexOf("List") != -1)
+                {
+                    res += PrintList(list[i]) + ",";
+                }
+                else
+                {
+                    res += list[i].ToString() + ",";
+                }
+            }
+            res = res.Substring(0,res.Length - 1) + " ]";
+            return res;
+        }
+        
         /// <summary>
         /// 打印到控制台
         /// </summary>
@@ -17,6 +65,7 @@ namespace Game
             bool isWrap = false;
             foreach (object obj in objs)
             {
+                if (obj == null) continue;
                 Type type = obj.GetType();
                 string extra = string.Empty;
                 if (type.Name.IndexOf("[]") != -1)
@@ -43,7 +92,15 @@ namespace Game
                 }
                 else if (type.Name.IndexOf("Dictionary") != -1)
                 {
-                    string json = obj.ToJson();
+                    string json = PrintDic(obj);
+
+                    str += ",\r\n" + json;
+                    isWrap = true;
+                }
+                else if (type.Name.IndexOf("List") != -1)
+                {
+                    string json = PrintList(obj);
+
                     str += ",\r\n" + json;
                     isWrap = true;
                 }
@@ -92,7 +149,15 @@ namespace Game
                 }
                 else if (type.Name.IndexOf("Dictionary") != -1)
                 {
-                    string json = obj.ToJson();
+                    string json = PrintDic(obj);
+
+                    str += ",\r\n" + json;
+                    isWrap = true;
+                }
+                else if (type.Name.IndexOf("List") != -1)
+                {
+                    string json = PrintList(obj);
+
                     str += ",\r\n" + json;
                     isWrap = true;
                 }
@@ -141,7 +206,15 @@ namespace Game
                 }
                 else if (type.Name.IndexOf("Dictionary") != -1)
                 {
-                    string json = obj.ToJson();
+                    string json = PrintDic(obj);
+
+                    str += ",\r\n" + json;
+                    isWrap = true;
+                }
+                else if (type.Name.IndexOf("List") != -1)
+                {
+                    string json = PrintList(obj);
+
                     str += ",\r\n" + json;
                     isWrap = true;
                 }
@@ -159,3 +232,4 @@ namespace Game
         }
     }
 }
+
