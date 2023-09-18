@@ -37,4 +37,4 @@ ConsoleUtils.Error("输出通知内容1 ----- ", ints, testObj, jd, testDic, obj
 
 ![](https://p.sda1.dev/12/ef0bc985b876f590f48890667259e60d/image.png)
 
-详细说明见 [Unity Console控制台打印拓展工具](https://busyo.buzz/article/Unity/%E5%B7%A5%E5%85%B7/Unity-Console%E6%8E%A7%E5%88%B6%E5%8F%B0%E6%89%93%E5%8D%B0%E6%8B%93%E5%B1%95%E5%B7%A5%E5%85%B7/)
+详细说明见 [Unity Console控制台打印拓展工具](https://busyo.buzz/article/ad277da9d73c/)
